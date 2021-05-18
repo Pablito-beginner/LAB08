@@ -7,9 +7,11 @@ import androidx.room.Update;
 
 @Dao
 public interface PozycjaMagazynowaDAO {
-
-    @Insert  //Automatyczna kwerenda wystarczy
+    @Insert //Automatyczna kwerenda wystarczy
     public void insert(PozycjaMagazynowa pozycja);
+
+    @Insert //Automatyczna kwerenda wystarczy
+    public void insert(HistoriaPozycji historiaPozycji);
 
     @Update //Automatyczna kwerenda wystarczy
     void update(PozycjaMagazynowa pozycja);
@@ -20,6 +22,15 @@ public interface PozycjaMagazynowaDAO {
     @Query("UPDATE Warzywniak SET QUANTITY = :wybraneWarzywoNowaIlosc WHERE NAME= :wybraneWarzywoNazwa")
     void updateQuantityByName(String wybraneWarzywoNazwa, int wybraneWarzywoNowaIlosc);
 
-    @Query("SELECT COUNT(*) FROM Warzywniak") //Ile jest rekordów w tabeli
+    @Query("SELECT COUNT(*) FROM Warzywniak") //Ile jest rekordow w tabeli
     int size();
+
+    @Query("SELECT * FROM Historia WHERE NAME= :wybraneWarzywoNazwa")
+    HistoriaPozycji[] showHistoryByName(String wybraneWarzywoNazwa);
+
+    @Query("SELECT DATEOFLASTCHANGE FROM Warzywniak WHERE NAME= :wybraneWarzywoNazwa")
+    String findDateByName(String wybraneWarzywoNazwa);
+
+    @Query("UPDATE Warzywniak SET DATEOFLASTCHANGE = :wybraneWarzywoNowaDataZmiany WHERE NAME= :wybraneWarzywoNazwa")
+    void updateDateByName(String wybraneWarzywoNowaDataZmiany, String wybraneWarzywoNazwa);
 }
